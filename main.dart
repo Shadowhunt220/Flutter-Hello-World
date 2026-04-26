@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -8,9 +10,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Welcome to Flutter',
+      title: 'Películas Clásicas',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
       home: const MyHomePage(),
@@ -26,94 +28,219 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String selectedOption = 'Opción 1';
+  String selectedOption = 'Todas las películas';
+
+  // Columna izquierda con información
+  Widget get leftColumn {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Mensaje de bienvenida
+        Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: Colors.deepPurple.shade50,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: const Row(
+            children: [
+              Icon(Icons.movie, color: Colors.deepPurple),
+              SizedBox(width: 10),
+              Text(
+                '¡Bienvenido a Cine Clásico!',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.deepPurple,
+                ),
+              ),
+            ],
+          ),
+        ),
+        
+        const SizedBox(height: 20),
+        
+        // Dropdown para filtrar
+        const Text(
+          'Filtrar por categoría:',
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+        ),
+        const SizedBox(height: 8),
+        DropdownButton<String>(
+          value: selectedOption,
+          isExpanded: true,
+          onChanged: (String? newValue) {
+            setState(() {
+              selectedOption = newValue!;
+            });
+          },
+          items: <String>['Todas las películas', 'Acción', 'Drama', 'Musicales']
+              .map<DropdownMenuItem<String>>((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(value),
+            );
+          }).toList(),
+        ),
+        
+        const SizedBox(height: 30),
+        
+        // Lista de películas destacadas
+        const Text(
+          'Películas destacadas:',
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 10),
+        Expanded(
+          child: ListView(
+            children: const [
+              ListTile(
+                leading: Icon(Icons.local_movies),
+                title: Text('Grease (1978)'),
+                subtitle: Text('John Travolta, Olivia Newton-John'),
+              ),
+              ListTile(
+                leading: Icon(Icons.local_movies),
+                title: Text('Scarface (1983)'),
+                subtitle: Text('Al Pacino'),
+              ),
+              ListTile(
+                leading: Icon(Icons.local_movies),
+                title: Text('Pulp Fiction (1994)'),
+                subtitle: Text('John Travolta, Uma Thurman'),
+              ),
+              ListTile(
+                leading: Icon(Icons.local_movies),
+                title: Text('Amadeus (1984)'),
+                subtitle: Text('F. Murray Abraham'),
+              ),
+              ListTile(
+                leading: Icon(Icons.local_movies),
+                title: Text('Ran (1985)'),
+                subtitle: Text('Akira Kurosawa'),
+              ),
+              ListTile(
+                leading: Icon(Icons.local_movies),
+                title: Text('The Mask of Zorro (1998)'),
+                subtitle: Text('Anthony Hopkins, Antonio Banderas'),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  // Widget de la imagen principal
+  Widget get mainImage {
+    return Container(
+      width: 400,
+      height: 600,
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.only(
+          topRight: Radius.circular(12),
+          bottomRight: Radius.circular(12),
+        ),
+        image: DecorationImage(
+          image: AssetImage('assets/Peliculas_clasicas.webp'),
+          // Si la imagen está en internet, usa NetworkImage:
+          // image: NetworkImage('https://tu-url.com/imagen.jpg'),
+          fit: BoxFit.cover,
+        ),
+      ),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.only(
+            topRight: Radius.circular(12),
+            bottomRight: Radius.circular(12),
+          ),
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Colors.black.withOpacity(0.3),
+              Colors.black.withOpacity(0.7),
+            ],
+          ),
+        ),
+        child: const Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.play_circle_filled, size: 60, color: Colors.white70),
+              SizedBox(height: 10),
+              Text(
+                'Películas Clásicas',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+              Text(
+                'El arte que trasciende el tiempo',
+                style: TextStyle(fontSize: 14, color: Colors.white70),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text('Welcome to Flutter'),
+        backgroundColor: Colors.deepPurple,
+        foregroundColor: Colors.white,
+        title: const Text(
+          '🎬 Películas Clásicas',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
         centerTitle: true,
+        elevation: 4,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () {
+              // Acción de búsqueda
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Función de búsqueda próximamente')),
+              );
+            },
+          ),
+        ],
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // ROW: Para poner elementos en horizontal
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.favorite, color: Colors.red, size: 30),
-                SizedBox(width: 10),
-                Text('Hello World', style: TextStyle(fontSize: 20)),
-                SizedBox(width: 10),
-                Icon(Icons.favorite, color: Colors.red, size: 30),
-              ],
-            ),
-            
-            const SizedBox(height: 30),
-            
-            // CONTAINER: Para dar estilo, padding, márgenes, etc.
-            Container(
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: Colors.blue.shade50,
-                borderRadius: BorderRadius.circular(15),
-                border: Border.all(color: Colors.blue, width: 2),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Colors.grey.shade100,
+              Colors.deepPurple.shade50,
+            ],
+          ),
+        ),
+        child: Center(
+          child: Container(
+            margin: const EdgeInsets.fromLTRB(0, 40, 0, 30),
+            height: 600,
+            child: Card(
+              elevation: 8,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
               ),
-              child: const Text(
-                'Este es un Container con estilo',
-                style: TextStyle(fontSize: 16),
-              ),
-            ),
-            
-            const SizedBox(height: 30),
-            
-            // DROPDOWN: Selector desplegable
-            DropdownButton<String>(
-              value: selectedOption,
-              onChanged: (String? newValue) {
-                setState(() {
-                  selectedOption = newValue!;
-                });
-              },
-              items: <String>['Opción 1', 'Opción 2', 'Opción 3']
-                  .map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-            ),
-            
-            const SizedBox(height: 30),
-            
-            // STACK: Superponer elementos
-            SizedBox(
-              height: 150,
-              width: 250,
-              child: Stack(
-                alignment: Alignment.center,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    height: 120,
-                    width: 220,
-                    color: Colors.green.shade200,
-                  ),
-                  Container(
-                    height: 80,
-                    width: 180,
-                    color: Colors.yellow.shade200,
-                  ),
-                  const Text(
-                    'Stack (superposición)',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
+                  SizedBox(width: 440, child: leftColumn),
+                  mainImage,
                 ],
               ),
             ),
-          ],
+          ),
         ),
       ),
     );
