@@ -1,0 +1,40 @@
+name: peliculas_clasicas
+description: Una aplicación de catálogo de películas clásicas con Flutter y TMDB API
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  
+  # Para peticiones HTTP a TMDB
+  http: ^1.1.0
+  
+  # Material icons (viene por defecto)
+  cupertino_icons: ^1.0.6
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
+  
+  # Assets: imágenes locales
+  assets:
+    - assets/Peliculas_clasicas.webp
+    # Si quieres agregar más imágenes en el futuro:
+    # - assets/images/
+  
+  # Fuentes personalizadas (opcional - descomenta si las usas)
+  # fonts:
+  #   - family: Schyler
+  #     fonts:
+  #       - asset: fonts/Schyler-Regular.ttf
+  #       - asset: fonts/Schyler-Italic.ttf
+  #         style: italic
